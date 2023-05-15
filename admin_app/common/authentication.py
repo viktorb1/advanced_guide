@@ -7,10 +7,12 @@ from core.models import User
 
 class JWTAuthentication(BaseAuthentication):
     def authenticate(self, request):
+        print(request.COOKIES)
         token = request.COOKIES.get("jwt")
         is_ambassador = "api/ambassador" in request.path
 
         if not token:
+            print("this is where it failed")
             return None
 
         try:
