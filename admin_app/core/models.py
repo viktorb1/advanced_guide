@@ -64,14 +64,6 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
 
-class Link(models.Model):
-    code = models.CharField(max_length=255, unique=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    products = models.ManyToManyField(Product)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-
 class Order(models.Model):
     transaction_id = models.CharField(max_length=255, null=True)
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
@@ -101,6 +93,14 @@ class Order(models.Model):
     def admin_revenue(self):
         items = OrderItem.objects.filter(order_id=self.pk)
         return sum(i.admin_revenue for i in items)
+
+
+class Link(models.Model):
+    code = models.CharField(max_length=255, unique=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    orders = models.ManyToManyField(Order)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 class OrderItem(models.Model):

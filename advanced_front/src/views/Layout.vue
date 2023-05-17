@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <Nav :user="user" />
+        <Nav />
         <div class="container-fluid">
             <div class="row">
                 <Menu />
@@ -22,15 +22,16 @@ import Nav from "@/components/Nav.vue"
 import Menu from "@/components/Menu.vue"
 import { onMounted, ref } from 'vue'
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/userStore";
 import axios from "axios"
 
 const router = useRouter()
-const user = ref(null)
+const userStore = useUserStore()
 
 onMounted(async () => {
     try {
         const { data } = await axios.get("user", { withCredentials: true })
-        user.value = data
+        userStore.setUser(data)
     } catch (e) {
         await router.push("/login")
     }
