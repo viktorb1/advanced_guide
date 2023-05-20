@@ -1,4 +1,7 @@
 <template>
+    <div class="col-md-12 mb-4 input-group">
+        <input class="form-control" placeholder="Search" @keyup="search(($event.target as HTMLInputElement).value)" />
+    </div>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div class="col" v-for="product in products" :key="product.id">
             <div class="card shadow-sm">
@@ -18,8 +21,19 @@
 <script setup lang="ts">
 import type { Product } from "@/views/views.d.ts"
 
+interface filterInt {
+    s: string;
+}
+
 const props = defineProps<{
-    products: Product[]
+    products: Product[];
+    filters: filterInt;
 }>()
+
+const emit = defineEmits(['set-filters'])
+
+const search = (s: string) => {
+    emit('set-filters', { s })
+}
 
 </script>
