@@ -1,6 +1,13 @@
 <template>
     <div class="col-md-12 mb-4 input-group">
         <input class="form-control" placeholder="Search" @keyup="search(($event.target as HTMLInputElement).value)" />
+        <div class="input-group-append">
+            <select class="form-select" @change="sort(($event.target as HTMLInputElement).value)">
+                <option>Select</option>
+                <option value="asc">Price Ascending</option>
+                <option value="desc">Price Descending</option>
+            </select>
+        </div>
     </div>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         <div class="col" v-for="product in products" :key="product.id">
@@ -19,21 +26,29 @@
 </template>
 
 <script setup lang="ts">
-import type { Product } from "@/views/views.d.ts"
+import type { Filter, Product } from 'types';
 
-interface filterInt {
-    s: string;
-}
+
 
 const props = defineProps<{
     products: Product[];
-    filters: filterInt;
+    filters: Filter;
 }>()
 
 const emit = defineEmits(['set-filters'])
 
 const search = (s: string) => {
-    emit('set-filters', { s })
+    emit('set-filters', {
+        ...props.filters,
+        s
+    })
+}
+
+const sort = (sort: string) => {
+    emit('set-filters', {
+        ...props.filters,
+        sort
+    })
 }
 
 </script>

@@ -5,3 +5,8 @@ export interface Product {
   image: string
   price: number
 }
+
+export interface Filter {
+  s: string
+  sort: string
+}
