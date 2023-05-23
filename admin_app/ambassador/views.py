@@ -81,7 +81,7 @@ class LinkAPIView(APIView):
                 "code": "".join(
                     random.choices(string.ascii_lowercase + string.digits, k=6)
                 ),
-                "orders": request.data["orders"],
+                "products": request.data["products"],
             }
         )
         serializer.is_valid(raise_exception=True)

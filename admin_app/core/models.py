@@ -98,7 +98,7 @@ class Order(models.Model):
 class Link(models.Model):
     code = models.CharField(max_length=255, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    orders = models.ManyToManyField(Order)
+    products = models.ManyToManyField(Product)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

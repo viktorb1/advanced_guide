@@ -61,28 +61,33 @@ class OrderAPIView(APIView):
 
             line_items.append(
                 {
-                    "name": product.title,
-                    "description": product.description,
-                    "images": [product.image],
-                    "amount": int(100 * product.price),
-                    "currency": "usd",
                     "quantity": quantity,
+                    "price_data": {
+                        "currency": "usd",
+                        "unit_amount": int(100 * product.price),
+                        "product_data": {
+                            "name": product.title,
+                            "description": product.description,
+                            "images": [product.image],
+                        },
+                    },
                 }
             )
 
         stripe.api_key = "sk_test_51N036vFkNsK3rQNn9MEgqFLrJHU7PqFV9pLGRZPp96DJ77TQFwcFnWVji036XDb7FZ8XUmxMmWNSUEyiHxCVtMLJ00UXvivMam"
 
         source = stripe.checkout.Session.create(
-            success_url="http://localhost:5000/success?source={CHECKOUT_SESSION_ID}",
-            cancel_url="http://localhost:5000/error",
+            success_url="http://localhost:3001/success?source={CHECKOUT_SESSION_ID}",
+            cancel_url="http://localhost:3001/error",
             payment_method_types=["card"],
             line_items=line_items,
+            mode="payment",
         )
 
         order.transaction_id = source["id"]
         order.save()
 
-        return Response({"message": "Success"})
+        return Response(source)
 
 
 class OrderConfirmAPIView(APIView):

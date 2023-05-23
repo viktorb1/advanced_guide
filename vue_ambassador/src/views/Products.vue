@@ -94,8 +94,10 @@ const select = (id: number) => {
 const generate = async () => {
     try {
         const { data } = await axios.post("links", {
-            orders: selected.value
+            products: selected.value
         })
+        link.value = `Link generated: ${import.meta.env.VITE_CHECKOUT_URL}/${data.code}`
+
     } catch (e) {
         error.value = "You should be logged in to generate a link."
     } finally {
@@ -104,9 +106,6 @@ const generate = async () => {
             error.value = ""
         }, 5000)
     }
-
-
-    link.value = `Link generated: ${import.meta.env.VITE_CHECKOUT_URL}/${data.code}`
 }
 
 </script>
