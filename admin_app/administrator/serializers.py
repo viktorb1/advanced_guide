@@ -28,7 +28,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
 
 class LinkSerializer(serializers.ModelSerializer):
-    orders = OrderSerializer(many=True)
+    products = ProductSerializer(many=True)
 
     class Meta:
         model = Link

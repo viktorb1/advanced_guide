@@ -14,8 +14,8 @@
                     <tr v-for="link in links" :key="link.id">
                         <td>{{ link.id }}</td>
                         <td>{{ link.code }}</td>
-                        <td>{{ link.orders.length }}</td>
-                        <td>$ {{ link.orders.reduce((s: number, o) => s + o.total, 0) }}</td>
+                        <td>{{ link.products.length }}</td>
+                        <td>$ {{ link.products.reduce((s, o) => s + Number(o.price), 0) }}</td>
                     </tr>
                 </tbody>
             </template>
